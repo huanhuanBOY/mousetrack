@@ -5,12 +5,13 @@
 </template>
 
 <script>
-import Heatmap from './components/Heatmap'
+import Heatmap from './components/heatmapview/Heatmap'
 
 export default {
   name: 'App',
   components: {
     Heatmap
+    
   },
   mounted(){
 
@@ -30,4 +31,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.viewcontainer{
+  width: 1100px;
+  display: flex;
+}
+
 </style>

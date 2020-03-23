@@ -1,43 +1,14 @@
 <template>
-  <div>
-    <div class="panel">
-      <range-slider
-      class="slider"
-      min="5"
-      max="100"
-      step="5"
-      @change="valueChange"
-      v-model="maxv">
-      </range-slider>
-      <span>Max</span>
-      <range-slider
-      class="slider"
-      min="1"
-      max="50"
-      step="1"
-      @change="valueChange"
-      v-model="radius">
-      </range-slider>
-      <span>Radius</span>
-      <range-slider
-      class="slider"
-      min="1"
-      max="100"
-      step="1"
-      @change="valueChange"
-      v-model="blur">
-      </range-slider>
-      <span>Blur</span>
-    </div>
+  <div class="viewcontainer">
     <canvas id="id_heatmap"></canvas>
+    <Panel v-on:configchange="update"></Panel>
   </div>
 </template>
 
 <script>
-import RangeSlider from 'vue-range-slider'
-import 'vue-range-slider/dist/vue-range-slider.css'
-import DataService from "../services/dataserve.js"
-import * as empty from '../assets/lib/simpleheat'
+import DataService from "../../services/dataserve.js"
+import * as empty from '../../assets/lib/simpleheat'
+import Panel from './Panel';
 export default {
   name: 'Heatmap',
   data () {
@@ -51,7 +22,7 @@ export default {
     }
   },
   components: {
-    RangeSlider
+    Panel
   },
   mounted(){
     Object.getPrototypeOf(DataService).get_json_data.call(this, 'dataProcess', "discourse")
@@ -99,10 +70,12 @@ export default {
       this.heatmap.draw(0.8);
       this.setCanvas()
     },
-    refresh(){
-      this.heatmap._max = this.maxv
-      this.heatmap.radius(this.radius, this.blur)
-      this.heatmap.draw(0.8);
+    update(data){
+      let conf = data[data["mode"]]
+      this.maxv = conf.maxv
+      this.radius = conf.radius
+      this.blur = conf.blur
+      this.drawHeatmap()
     }
   }
 }
