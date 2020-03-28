@@ -31,11 +31,6 @@ setTimeout(function() {
                 });
             }
         }
-        if (window.location.href.indexOf("storage\/mad\/questions") > 0) {
-            setTimeout(function() {
-                saveEleASImg(document.getElementById("question_content"))
-            }, 8000)
-        }
     `
     document.body.appendChild(script);
 }, 500);
