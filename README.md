@@ -10,6 +10,9 @@ Add the scripts `parse.js`, `mousetrack.js` to end of footer in html.
 
 * Backend
 Run parse server
+    * provide static scripts
+    * API save mousetrack
+    * API load mousetrack
 
 * Screenshot
 Refer to screenshot
