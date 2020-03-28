@@ -3,4 +3,4 @@
 * run `screenshot($element)`
 * Then we can download the image
 
-support svg 
+support svg

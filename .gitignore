@@ -3,3 +3,7 @@ __MAC*
 node_modules
 index.html
 vis_case
+server/node_modules
+server/app.js
+server/app.yaml
+server/logs
