@@ -1,0 +1,5 @@
+__MAC*
+.DS_Store
+node_modules
+index.html
+vis_case
