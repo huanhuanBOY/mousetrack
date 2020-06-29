@@ -1,0 +1,179 @@
+.sid_container {
+    font-family: 'Roboto';
+    width: 600px;
+    margin: 200px auto 0;
+    display: block;
+    background: #FFF;
+    padding: 10px 50px 50px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+h2 small {
+    font-weight: normal;
+    color: #888;
+    display: block;
+}
+
+.sid_footer {
+    margin-top: 100px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sid_footer a {
+    color: #53B2C8;
+}
+
+
+/* form starting stylings ------------------------------- */
+
+.sid_group {
+    margin-top: 100px;
+    width: 350px;
+    margin-left: 150px;
+    position: relative;
+    margin-bottom: 45px;
+}
+
+input {
+    font-size: 28px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid #757575;
+}
+
+input:focus {
+    outline: none;
+}
+
+
+/* LABEL ======================================= */
+
+.sid_label {
+    color: #999;
+    font-size: 20px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+
+/* active state */
+
+input:focus~label,
+input:valid~label {
+    top: -20px;
+    font-size: 20px;
+    color: #5264AE;
+}
+
+
+/* BOTTOM BARS ================================= */
+
+.sid_login {
+    position: absolute;
+    right: 50px;
+    top: 0px;
+    width: 64px;
+}
+
+.sid_bar {
+    position: relative;
+    display: block;
+    width: 200px;
+}
+
+.sid_bar:before,
+.sid_bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.sid_bar:before {
+    left: 50%;
+}
+
+.sid_bar:after {
+    right: 50%;
+}
+
+
+/* active state */
+
+input:focus~.sid_bar:before,
+input:focus~.sid_bar:after {
+    width: 50%;
+}
+
+
+/* sid_highlightER ================================== */
+
+.sid_highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+
+/* active state */
+
+input:focus~.sid_highlight {
+    -webkit-animation: inputsid_highlighter 0.3s ease;
+    -moz-animation: inputsid_highlighter 0.3s ease;
+    animation: inputsid_highlighter 0.3s ease;
+}
+
+
+/* ANIMATIONS ================ */
+
+@-webkit-keyframes inputsid_highlighter {
+    from {
+        background: #5264AE;
+    }
+    to {
+        width: 0;
+        background: transparent;
+    }
+}
+
+@-moz-keyframes inputsid_highlighter {
+    from {
+        background: #5264AE;
+    }
+    to {
+        width: 0;
+        background: transparent;
+    }
+}
+
+@keyframes inputsid_highlighter {
+    from {
+        background: #5264AE;
+    }
+    to {
+        width: 0;
+        background: transparent;
+    }
+}

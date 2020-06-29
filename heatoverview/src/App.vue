@@ -29,11 +29,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-}
-.viewcontainer{
-  width: 1100px;
-  display: flex;
+  /* margin-top: 60px; */
 }
 
 </style>
