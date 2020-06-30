@@ -1,9 +1,10 @@
 __MAC*
 .DS_Store
 node_modules
-index.html
 vis_case
 server/node_modules
 server/app.js
 server/app.yaml
 server/logs
+ppt
+heatoverview/node_modules
