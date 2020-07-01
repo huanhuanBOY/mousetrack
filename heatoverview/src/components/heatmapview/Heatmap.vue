@@ -19,14 +19,14 @@ export default {
       image: "test.jpg",
       maxHei: 0,
       maxWid:0,
+      xspeed: 10, // <=10
     }
   },
   components: {
     Panel
   },
   mounted(){
-    // this.dataProcess(this.localdata)
-    Object.getPrototypeOf(DataService).get_json_data.call(this, 'dataProcess', "cache/211fu")
+    Object.getPrototypeOf(DataService).get_json_data.call(this, 'dataProcess', "cache/011me")
   },
   methods:{
     dataProcess(data){
@@ -42,8 +42,22 @@ export default {
       data.sort(compare);
       
       let localdata = data.map(item => {
-        return [item["x"], item["y"], 1, item["time"], item["clientX"], item["clientY"]]
+        return [item["x"], item["y"], 0, item["time"], item["clientX"], item["clientY"]]
       })
+      localdata[0][2] = 1
+      for(let i=0;i<localdata.length-2;){
+        let t=i+1;
+        for(;t<localdata.length;t++){
+          if((localdata[t][3] - localdata[i][3]) > 100){
+            localdata[i][2] = 1
+            i = t
+            break
+          }
+        }
+        if(t == localdata.length){
+          break
+        }
+      }
       let maxdata = data.map(item => {
         return item["x"] + "_" +item["y"]
       })
@@ -82,30 +96,28 @@ export default {
       this.heatmap._max = 20
       this.heatmap.radius(20, 15)
       this.heatmap.draw();
-      // this.setCanvas()
+      console.log((new Date()).getTime())
       this.addrecord(0)
     },
 
     addrecord(index){
       let that = this
       if(index >= this.localdata.length-1){
+        console.log((new Date()).getTime())
         return;
       }
-       console.log(index)
+      let initIndex = index;
+      this.heatmap.add(this.localdata[index++])
+      while(index < this.localdata.length-1 && !this.localdata[index][2]){
+        this.heatmap.add(this.localdata[index++])
+      }
       setTimeout(function(){
-        that.heatmap.add(that.localdata[index])
-        
-        // if((window.scrollY + window.outerHeight) < document.getElementById("id_mouse").style.top){
-        //   window.scrollTo(0, window.scrollY + that.localdata[index][1] - that.localdata[index-1][1]);
-        // }else if(index > 0 && Math.abs(that.localdata[index][4] - that.localdata[index-1][4])<10 && Math.abs(that.localdata[index][5] - that.localdata[index-1][5])<10){
-        //   window.scrollTo(0, window.scrollY + that.localdata[index][1] - that.localdata[index-1][1]);
-        // }
-        window.scrollTo(that.localdata[index][0] - that.localdata[index][3], that.localdata[index][1] - that.localdata[index][4]);
-        document.getElementById("id_mouse").style.top = that.localdata[index][1] + "px"
-        document.getElementById("id_mouse").style.left = that.localdata[index][0] +  "px"
-        that.heatmap.draw();
-        that.addrecord(index+1)
-      }, (that.localdata[index+1][3] - that.localdata[index][3])/200)
+          window.scrollTo(that.localdata[index][0] - that.localdata[index][3], that.localdata[index][1] - that.localdata[index][4]);
+          document.getElementById("id_mouse").style.top = that.localdata[index][1] + "px"
+          document.getElementById("id_mouse").style.left = that.localdata[index][0] +  "px"
+          that.heatmap.draw();
+          that.addrecord(index)
+      }, (that.localdata[index][3] - that.localdata[initIndex][3])/that.xspeed)
     },
     update(data){
       let conf = data[data["mode"]]
