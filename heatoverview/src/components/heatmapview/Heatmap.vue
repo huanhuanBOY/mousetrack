@@ -20,15 +20,24 @@ export default {
       maxHei: 0,
       maxWid:0,
       xspeed: 10, // <=10
+      userid: "011me",
+      vdata: {}
     }
   },
   components: {
     Panel
   },
   mounted(){
-    Object.getPrototypeOf(DataService).get_json_data.call(this, 'dataProcess', "cache/011me")
+    let that = this;
+    Object.getPrototypeOf(DataService).get_json_data.call(this, 'loadVideodata', "duration")
+    setTimeout(function(){
+      Object.getPrototypeOf(DataService).get_json_data.call(that, 'dataProcess', "cache/"+that.userid)
+    }, 1000)
   },
   methods:{
+    loadVideodata(vdata){
+      this.vdata = vdata["ipt_"+this.userid]
+    },
     dataProcess(data){
       function compare(a, b) {
           if (a.time < b.time) {
@@ -40,7 +49,17 @@ export default {
           return 0;
       }
       data.sort(compare);
-      
+      let t = data[data.length-1]["time"]
+      let start = t - this.vdata["time"]
+      // console.log(start)
+      let tmp = data.filter(item => {
+        // console.log(parseInt(item["time"]) > parseInt(start))
+        return parseInt(item["time"]) > parseInt(start) && item["x"] < 200 && item["y"] < 150
+      })
+      start = tmp[0]["time"]
+      data = data.filter(item => {
+        return parseInt(item["time"]) > parseInt(start)
+      })
       let localdata = data.map(item => {
         return [item["x"], item["y"], 0, item["time"], item["clientX"], item["clientY"]]
       })
@@ -96,11 +115,14 @@ export default {
       this.heatmap._max = 20
       this.heatmap.radius(20, 15)
       this.heatmap.draw();
-      console.log((new Date()).getTime())
+      // console.log((new Date()).getTime())
       this.addrecord(0)
     },
 
     addrecord(index){
+      // if(index > 50){
+      //   return 
+      // }
       let that = this
       if(index >= this.localdata.length-1){
         console.log((new Date()).getTime())

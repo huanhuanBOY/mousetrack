@@ -10,7 +10,9 @@ class Service {
             that[callback](DataService[filename])
         }
         d3.json("static/" + filename + ".json").then(function(data) {
-            data = data["data"]
+            if (data["data"]) {
+                data = data["data"]
+            }
             DataService[filename] = data;
             that[callback](data)
         })
