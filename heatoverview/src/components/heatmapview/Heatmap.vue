@@ -60,6 +60,7 @@ export default {
       data = data.filter(item => {
         return parseInt(item["time"]) > parseInt(start)
       })
+      // window.data = data
       let localdata = data.map(item => {
         return [item["x"], item["y"], 0, item["time"], item["clientX"], item["clientY"]]
       })
