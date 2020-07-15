@@ -29,6 +29,7 @@ export var userInfo = {
     goLogin(){
         document.getElementById("sid_login").addEventListener("click", function() {
             let userid_ = document.getElementById("sid_value").value;
+            userInfo.userID = userid
             if (userid_ in userInfo.userList) {
                 userid = "ipt_" + userid_;
                 document.getElementById("sid_container").style["display"] = "none"

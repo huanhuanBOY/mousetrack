@@ -35,6 +35,7 @@ export var collection = {
     defAttributes(localevent) {
         let track = {}
         track['d_path'] = collection.getElementPathByEvent(localevent);
+        console.log(userInfo)
         track['d_userid'] = userInfo.userID || "unknown";
         track['d_osVersion'] = collection.static.OS;  
         track['d_browser'] = collection.static.Browser || "unknown";
