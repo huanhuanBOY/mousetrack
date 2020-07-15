@@ -2,49 +2,57 @@ import { collection } from './collection.js';
 export var mousetrack = {
     config: {
         ele: null,
-        events: ["mousemove", "mousedown", "mouseleave", "mouseenter", "mouseup", "mouseover", "mouseout", "mousewheel"],
+        mouseEvents: ["mousemove", "mousedown", "mouseleave", "mouseenter", "mouseup", "mouseover", "mouseout", "mousewheel", "select", "wheel", "contextmenu"],
+        windowEvent: ["blur", "focus"],
+        documentEvent: ["keypress", "paste", "copy", "cut"],
     },
     init() {
-        if (window.location.href.indexOf("in-class-exercise") > 0) {
-            mousetrack.setElement();
-            window.addEventListener('unload', function(event) {
-                collection.submitData();
-            });
-        }
-    },
-    setElement() {
-        if (document.getElementsByClassName("cooked") && document.getElementsByClassName("cooked")[0]) {
-            mousetrack.config.ele = document.getElementsByClassName("cooked")[0];
-            document.getElementsByClassName("cooked")[0].addEventListener("click", function(e) {
-                if (document.getElementsByClassName("mfp-img").length > 0) {
-                    mousetrack.addEvents(document.getElementsByClassName("mfp-img")[0])
-                }
-            })
-            mousetrack.addEvents(mousetrack.config.ele)
-        } else {
-            setTimeout(mousetrack.setElement, 200);
-        }
+        mousetrack.config.ele = document.getElementsByTagName("html")[0]
+        mousetrack.setWindowEvent()
+        mousetrack.setDocumentEvent()
+        mousetrack.setMouseEvent()
     },
     throttle(callback, limit) {
         var tick = false;
-        return function() {
+        return function () {
             if (!tick) {
                 callback.call();
                 tick = true;
-                setTimeout(function() {
+                setTimeout(function () {
                     tick = false;
                 }, limit);
             }
         }
     },
-    addEvents(localelement) {
-        mousetrack.config.events.forEach(element => {
-            if (typeof(element) == "string") {
-                localelement.addEventListener(element, function(e) {
+    setWindowEvent() {
+        mousetrack.config.windowEvent.forEach(element => {
+            window.addEventListener(element, function (e) {
+                collection.accumulation(e)
+            });
+        });
+        window.onbeforeunload = function(e){
+            collection.accumulation(e)
+            collection.submitData();
+        }
+    },
+    setDocumentEvent() {
+        mousetrack.config.documentEvent.forEach(element => {
+            document.addEventListener(element, function (e) {
+                collection.accumulation(e)
+            });
+        });
+    },
+    setMouseEvent(localelement) {
+        if (!localelement) {
+            localelement = window;
+        }
+        mousetrack.config.mouseEvents.forEach(element => {
+            if (typeof (element) == "string") {
+                localelement.addEventListener(element, function (e) {
                     collection.accumulation(e)
                 })
             } else {
-                localelement.addEventListener(element, mousetrack.throttle(function(e) {
+                localelement.addEventListener(element, mousetrack.throttle(function (e) {
                     collection.accumulation(e)
                 }, element[1]));
             }
